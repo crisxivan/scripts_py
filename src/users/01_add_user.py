@@ -1,0 +1,34 @@
+import json
+import requests
+import os
+import sys
+
+# ensure the `src` directory is on the import path so we can pull in utils/auth
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from utils import get_headers
+
+import logging
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+
+api_url = "http://172.28.32.1:58000/api/v1/user/setup"
+
+headers = get_headers()
+logging.info(f"Headers: {headers}")
+
+body_json = {
+    "username": "admin1",
+    "password": "cisco!!",
+    "authorization": [
+        {
+            "role": "ROLE_OBSERVER"
+        }
+    ]
+}
+
+logging.info(f"POST {api_url}")
+resp = requests.post(api_url, json.dumps(body_json), headers=headers)
+
+print("Status: ", resp.status_code)
+response_json = resp.json()
+print(response_json)

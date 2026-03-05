@@ -11,7 +11,7 @@ from utils import get_headers
 import logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-api_url = "http://172.28.32.1:58000/api/v1/user/setup"
+api_url = "http://localhost:58001/api/v1/user/setup"
 
 headers = get_headers()
 logging.info(f"Headers: {headers}")

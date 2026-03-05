@@ -11,7 +11,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 device_id = "FDO1302M5F7-uuid"
-api_url = f"http://172.28.32.1:58000/api/v1/network-device/{device_id}"
+api_url = f"http://localhost:58001/api/v1/network-device/{device_id}"
 
 headers = get_headers()
 logging.info(f"Headers: {headers}")

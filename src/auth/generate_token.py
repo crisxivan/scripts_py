@@ -8,7 +8,7 @@ import requests
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 # ----- configuration defaults ------------------------------------------------
-DEFAULT_BASE_URL = os.environ.get("DNA_CENTER_URL", "http://172.28.32.1:58000")
+DEFAULT_BASE_URL = os.environ.get("DNA_CENTER_URL", "http://localhost:58001")
 DEFAULT_USERNAME = os.environ.get("DNA_CENTER_USER", "admin")
 DEFAULT_PASSWORD = os.environ.get("DNA_CENTER_PASS", "cisco!")
 

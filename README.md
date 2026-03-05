@@ -1,63 +1,111 @@
-# Entorno de virtualización Python
+# Instalación y Configuración
 
-# Pasos de instalación en Linux:
+Este proyecto contiene scripts para interactuar con la API de DNA Center. Sigue las instrucciones según tu sistema operativo.
 
 ## 1. Clonación del proyecto
 
 Desde la terminal ejecutar:
 
-**git clone** <URL_del_repositorio> <nombre_de_la_carpeta_de_destino>
+```bash
+git clone <URL_del_repositorio> <nombre_de_la_carpeta_de_destino>
+cd <nombre_de_la_carpeta_de_destino>
+```
 
-Luego ejecutar **cd** <nombre_de_la_carpeta_de_destino>. Esta carpeta será la raíz de nuestro proyecto en Python.
+## 2. Instalación de dependencias
 
-## 2. Creación del entorno virtual
+### Windows
 
-Supongamos que el nombre que le damos al entorno virtual es **cisco**, entonces se creará una carpeta **cisco** con todas las librerías y dependencias necesarias paea nuestro proyecto. 
+#### Opción A: Instalación global (recomendado para uso simple)
 
-La manera de realizarlo es la siguiente:
+```powershell
+# Navegar a la carpeta del proyecto
+cd C:\ruta\al\proyecto\scripts_py
 
-# python3 -m venv <nombre_del_entorno>
-Ejemplo: python3 -m venv cisco
+# Instalar dependencias para el usuario actual
+python -m pip install --user -r requirements.txt
+```
 
-Para activar el entorno escribimos **source cisco/bin/activate**, en la carpeta raíz del proyecto. El nombre del entorno virtual aparecerá entre paréntesis ().
+#### Opción B: Usando entorno virtual (recomendado para desarrollo)
 
-## 3. Instalación de las dependencias
+```powershell
+# Crear el entorno virtual
+python -m venv cisco
 
-En la carpeta raíz de nuestro proyecto y dentro del entorno virtual escribimos: **pip install -r requirements.txt**
+# Activar el entorno virtual
+cisco\Scripts\Activate.ps1
 
-Las dependencias incluyen principalmente `requests` y sus librerías relacionadas necesarias para hacer peticiones HTTP a la API.
+# Si aparece un error de política de ejecución, ejecutar primero:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-## 4. Selección del intérprete Python para nuestro entorno virtual
+# Instalar dependencias
+pip install -r requirements.txt
 
-<img width="881" height="118" alt="image" src="https://github.com/user-attachments/assets/18c41d8e-d338-48b6-953c-b2499c57319f" />
+# Para desactivar el entorno virtual
+deactivate
+```
 
-<img width="736" height="412" alt="image" src="https://github.com/user-attachments/assets/2a795fcd-2cf8-47ef-a5a6-d21e09ce967f" />
+### Linux/Mac
 
-Tal como se ve en la figura seleccionamos Python 3.10.12 (cisco) que se mostrará como entorno recomendado.
+#### Opción A: Instalación global (recomendado para uso simple)
 
-## 5. Desactivación del entorno virtual
+```bash
+# Navegar a la carpeta del proyecto
+cd /ruta/al/proyecto/scripts_py
 
-Simplemente escribimos en la línea de comandos: **deactivate**
+# Instalar dependencias
+pip3 install --user -r requirements.txt
+```
 
-## 6. Ejecución de los scripts
+#### Opción B: Usando entorno virtual (recomendado para desarrollo)
 
-Una vez configurado el entorno virtual y activado, puedes ejecutar los scripts de la API.
+```bash
+# Crear el entorno virtual
+python3 -m venv cisco
+
+# Activar el entorno virtual
+source cisco/bin/activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Para desactivar el entorno virtual
+deactivate
+```
+
+### Dependencias incluidas
+
+Las dependencias incluyen principalmente `requests` y sus librerías relacionadas necesarias para hacer peticiones HTTP a la API:
+- `requests` - Para realizar peticiones HTTP
+- `certifi`, `charset-normalizer`, `idna`, `urllib3` - Dependencias de requests
+
+## 3. Ejecución de los scripts
+
+Una vez instaladas las dependencias, puedes ejecutar los scripts de la API.
 
 **Para ver las instrucciones completas de cómo ejecutar los scripts, consulta el archivo [README_ENDPOINTS.md](README_ENDPOINTS.md)**
 
 ### Resumen rápido:
 
 ```bash
-# 1. Obtener la IP de Windows (si el servidor está en Windows)
-ip route | grep default
+# Windows (PowerShell)
+# 1. Configurar la URL del servidor (opcional, localhost es el valor por defecto)
+$env:DNA_CENTER_URL="http://localhost:58001"
 
-# 2. Configurar la URL del servidor
-export DNA_CENTER_URL="http://172.28.32.1:58000"
+# 2. Obtener token de autenticación
+$env:DNAC_TOKEN=$(python src/auth/generate_token.py)
 
-# 3. Obtener token de autenticación
+# 3. Ejecutar los scripts (ejemplos)
+python src/network_devices/01_get_network_devices.py
+python src/users/01_add_user.py
+
+# Linux/Mac
+# 1. Configurar la URL del servidor (opcional, localhost es el valor por defecto)
+export DNA_CENTER_URL="http://localhost:58001"
+
+# 2. Obtener token de autenticación
 export DNAC_TOKEN=$(python3 src/auth/generate_token.py)
 
-# 4. Ejecutar los scripts (ejemplos)
+# 3. Ejecutar los scripts (ejemplos)
 python3 src/network_devices/01_get_network_devices.py
 python3 src/users/01_add_user.py
 ```
